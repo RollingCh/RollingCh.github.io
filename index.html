@@ -1,57 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
   <title>Weather Forecast</title>
-  <style>
-    /* Add some style to the page */
-    body {
-      font-family: Arial, sans-serif;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .forecast {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      margin-bottom: 10px;
-      padding: 10px;
-    }
-    .forecast-icon {
-      flex: 0 0 80px;
-      text-align: center;
-    }
-    .forecast-icon img {
-      width: 50px;
-      height: 50px;
-    }
-    .forecast-info {
-      flex: 1;
-      text-align: left;
-    }
-    .forecast-info h2 {
-      margin: 0;
-      font-size: 18px;
-    }
-    .forecast-info p {
-      margin: 0;
-      font-size: 14px;
-    }
-  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Weather Forecast</h1>
-    <form id="form">
-      <label for="city">Enter a city:</label>
-      <input type="text" id="city" name="city">
-      <button type="submit">Get Forecast</button>
-    </form>
-    <div id="forecast-container"></div>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-12">
+        <h1>Weather Forecast</h1>
+        <form id="form" class="form-inline my-3">
+          <label for="city" class="mr-3">Enter a city:</label>
+          <input type="text" id="city" name="city" class="form-control">
+          <button type="submit" class="btn btn-primary">Get Forecast</button>
+        </form>
+        <div id="forecast-container"></div>
+      </div>
+    </div>
   </div>
+  <!-- Include jQuery and Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.16.6/dist/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
   <script>
     // Fetch weather data from an API
     async function getWeatherData(city) {
@@ -61,22 +32,4 @@
         const response = await fetch(apiUrl);
         return await response.json();
       } catch (error) {
-        console.error(error);
-      }
-    }
-
-    // Display the weather forecast on the page
-    async function showWeatherForecast(city) {
-      const weatherData = await getWeatherData(city);
-      const forecastContainer = document.getElementById('forecast-container');
-      forecastContainer.innerHTML = ''; // Clear any previous forecasts
-      weatherData.list.forEach((item) => {
-        const forecast = document.createElement('div');
-        forecast.classList.add('forecast');
-        forecast.innerHTML = `
-          <div class="forecast-icon">
-            <img src="https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png" alt="Weather icon">
-          </div>
-          <div class="forecast-info">
-            <h2>${item.dt_txt}</h2>
-            <p>Temperature: ${item.main
+        console.error(error
