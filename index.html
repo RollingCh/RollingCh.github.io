@@ -26,8 +26,8 @@
   <script>
     // Fetch weather data from an API
     async function getWeatherData(city) {
-      const apiKey = 'your-api-key-here';
-      const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=50.81&longitude=-1.90&hourly=temperature_2m`;
+      const apiKey = 'dbb541e1b55e118ac93bdc4a29d45471';
+      const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
       try {
         const response = await fetch(apiUrl);
         return await response.json();
