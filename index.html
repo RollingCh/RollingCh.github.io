@@ -32,4 +32,35 @@
         const response = await fetch(apiUrl);
         return await response.json();
       } catch (error) {
-        console.error(error
+        console.error(error);
+      }
+    }
+    $('#form').submit(function(event) {
+  event.preventDefault();
+  const city = $('#city').val();
+  getWeatherData(city).then(function(data) {
+    console.log(data);
+  });
+});
+getWeatherData(city).then(function(data) {
+  $('#forecast-container').empty();
+  data.list.forEach(function(item) {
+    const forecastDate = new Date(item.dt * 1000);
+    const forecastIconUrl = `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`;
+    const forecastHtml = `
+      <div class="forecast">
+        <div class="forecast-icon">
+          <img src="${forecastIconUrl}" alt="${item.weather[0].description}">
+        </div>
+        <div class="forecast-info">
+          <h2>${forecastDate.toLocaleDateString()}</h2>
+          <p>${item.weather[0].description}</p>
+          <p>High: ${item.main.temp_max}°C</p>
+          <p>Low: ${item.main.temp_min}°C</p>
+        </div>
+      </div>
+    `;
+    $('#forecast-container').append(forecastHtml);
+  });
+});
+
