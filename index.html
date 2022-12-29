@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Weather Forecast</title>
+  <style>
+    /* Add some style to the page */
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .forecast {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+    .forecast-icon {
+      flex: 0 0 80px;
+      text-align: center;
+    }
+    .forecast-icon img {
+      width: 50px;
+      height: 50px;
+    }
+    .forecast-info {
+      flex: 1;
+      text-align: left;
+    }
+    .forecast-info h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .forecast-info p {
+      margin: 0;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Weather Forecast</h1>
+    <form id="form">
+      <label for="city">Enter a city:</label>
+      <input type="text" id="city" name="city">
+      <button type="submit">Get Forecast</button>
+    </form>
+    <div id="forecast-container"></div>
+  </div>
+  <script>
+    // Fetch weather data from an API
+    async function getWeatherData(city) {
+      const apiKey = 'your-api-key-here';
+      const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
+      try {
+        const response = await fetch(apiUrl);
+        return await response.json();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    // Display the weather forecast on the page
+    async function showWeatherForecast(city) {
+      const weatherData = await getWeatherData(city);
+      const forecastContainer = document.getElementById('forecast-container');
+      forecastContainer.innerHTML = ''; // Clear any previous forecasts
+      weatherData.list.forEach((item) => {
+        const forecast = document.createElement('div');
+        forecast.classList.add('forecast');
+        forecast.innerHTML = `
+          <div class="forecast-icon">
+            <img src="https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png" alt="Weather icon">
+          </div>
+          <div class="forecast-info">
+            <h2>${item.dt_txt}</h2>
+            <p>Temperature: ${item.main
