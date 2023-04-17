@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Symbols</th>
+        <th scope="col">Shares</th>
+        <th scope="col">Price</th>
+        <th scope="col">Added Cash</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for row in database_his %}
+      <tr>
+        <th scope="row">{{ row["symbol"] }}</th>
+        <td>{{ row["shares"] }}</td>
+        <td>{{ row["price"] }}</td>
+        <td>{{ row["added_cash"] }}</td>
+        <td>{{ row["date"] }}</td>
+      </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

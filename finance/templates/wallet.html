@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+<table class="table">
+    <h1>Add Cash</h1>
+    <form action="/wallet" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="add_cash" placeholder="£" type="number">
+        </div>
+
+        <button class="btn btn-secondary" type="submit">Add Cash</button>
+    </form>
+
+  <tfoot>
+    <tr>
+      <td></td>
+      <td></td>
+      <th scope="col">Cash Balance</th>
+      <th scope="col">£{{ cash }}</th>
+    </tr>
+  </tfoot>
+</table>
+{% endblock %}
