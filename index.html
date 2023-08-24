@@ -1,65 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <!-- Include Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-  <title>Weather Forecast</title>
-</head>
-<body>
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col-12">
-        <h1>Weather Forecast</h1>
-        <form id="form" class="form-inline my-3">
-          <label for="city" class="mr-3">Enter a city:</label>
-          <input type="text" id="city" name="city" class="form-control">
-          <button type="submit" class="btn btn-primary">Get Forecast</button>
-        </form>
-        <div id="forecast-container"></div>
-      </div>
-    </div>
-  </div>
-  <!-- Include jQuery and Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.16.6/dist/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-  <script>
-    // Fetch weather data from an API
-    async function getWeatherData(city) {
-      const apiKey = '20707c1c9996985627904de54dd2aa37';
-      const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
-      try {
-        const response = await fetch(apiUrl);
-        return await response.json();
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    $('#form').submit(function(event) {
-  event.preventDefault();
-  const city = $('#city').val();
-  getWeatherData(city).then(function(data) {
-    console.log(data);
-  });
-});
-getWeatherData(city).then(function(data) {
-  $('#forecast-container').empty();
-  data.list.forEach(function(item) {
-    const forecastDate = new Date(item.dt * 1000);
-    const forecastIconUrl = `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`;
-    const forecastHtml = `
-      <div class="forecast">
-        <div class="forecast-icon">
-          <img src="${forecastIconUrl}" alt="${item.weather[0].description}">
-        </div>
-        <div class="forecast-info">
-          <h2>${forecastDate.toLocaleDateString()}</h2>
-          <p>${item.weather[0].description}</p>
-          <p>High: ${item.main.temp_max}°C</p>
-          <p>Low: ${item.main.temp_min}°C</p>
-        </div>
-      </div>
-    `;
-    $('#forecast-container').append(forecastHtml);
-  });
-});
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Symbols</th>
+        <th scope="col">Shares</th>
+        <th scope="col">Price</th>
+        <th scope="col">TOTAL</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for row in database %}
+      <tr>
+        <th scope="row">{{ row["symbol"] }}</th>
+        <td>{{ row["totalShares"] }}</td>
+        <td>{{ '{:.2f}'.format(row["price"]) }}</td>
+        <td>{{ '{:.2f}'.format(row["totalShares"] * row["price"]) }}</td>
+      </tr>
+        {% endfor %}
+    </tbody>
+
+  <tfoot>
+    <tr>
+      <td></td>
+      <td></td>
+      <th scope="col">Cash Balance</th>
+      <th scope="col">£{{ '{:.2f}'.format(cash) }}</th>
+    </tr>
+  </tfoot>
+</table>
+{% endblock %}
